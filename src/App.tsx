@@ -1,16 +1,18 @@
-import { PlayerCard } from './frontend/components/ui/PlayerCard'
+import { Route, Routes } from 'react-router-dom'
+import StartScreen from './frontend/components/modules/start-screen'
+import PlayersScreen from './frontend/components/modules/start-screen/players-screen'
+import CategoriesScreen from './frontend/components/modules/start-screen/categories-screen'
+import GameScreen from './frontend/components/modules/game-screen'
 
 function App() {
   return (
-    <div className="flex min-h-screen flex-wrap items-center justify-center gap-8 bg-neutral-100 p-8">
-      <PlayerCard playerNumber={1} color={0} variant="word" word="SUNSET" />
-      <PlayerCard playerNumber={2} color={1} variant="imposter" />
-      <PlayerCard
-        playerNumber={3}
-        color={2}
-        variant="imposter"
-        hint="It's something you'd see at the beach."
-      />
+    <div className="min-h-screen bg-neutral-50">
+      <Routes>
+        <Route path="/" element={<StartScreen />} />
+        <Route path="/players" element={<PlayersScreen />} />
+        <Route path="/categories" element={<CategoriesScreen />} />
+        <Route path="/game" element={<GameScreen />} />
+      </Routes>
     </div>
   )
 }
