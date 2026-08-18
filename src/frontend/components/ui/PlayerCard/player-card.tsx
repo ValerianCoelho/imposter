@@ -3,8 +3,10 @@ import { Lightbulb, Pointer, VenetianMask } from 'lucide-react'
 
 type PlayerCardProps = {
   playerNumber: number
+  playerName?: string
   instruction?: string
   color?: number
+  onReveal?: () => void
 } & (
   | { variant: 'word'; word: string }
   | { variant: 'imposter'; hint?: string }
@@ -38,14 +40,19 @@ function getRaysBackground(colorIndex: number) {
 
 export default function PlayerCard({
   playerNumber,
+  playerName,
   instruction = 'Do not tell the word to other players.',
   color = 0,
+  onReveal,
   ...variantProps
 }: PlayerCardProps) {
   const [isHolding, setIsHolding] = useState(false)
   const raysBackground = getRaysBackground(color)
 
-  const startHold = () => setIsHolding(true)
+  const startHold = () => {
+    setIsHolding(true)
+    onReveal?.()
+  }
   const endHold = () => setIsHolding(false)
 
   return (
@@ -68,7 +75,7 @@ export default function PlayerCard({
           style={{ backgroundImage: raysBackground }}
         >
           <h1 className="mt-2 text-4xl font-extrabold tracking-wide text-black">
-            PLAYER {playerNumber}
+            {playerName ? playerName.toUpperCase() : `PLAYER ${playerNumber}`}
           </h1>
           <p className="mt-4 max-w-[80%] text-center text-[15px] leading-snug text-black/80">
             {instruction}

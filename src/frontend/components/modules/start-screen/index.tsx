@@ -24,6 +24,7 @@ export default function StartScreen() {
     (state) => state.decrementImposterCount,
   )
   const setHintEnabled = useGameStore((state) => state.setHintEnabled)
+  const startRound = useGameStore((state) => state.startRound)
 
   const filledPlayerNames = playerNames.filter((name) => name.trim())
   const playersPreview =
@@ -107,7 +108,10 @@ export default function StartScreen() {
 
       <button
         type="button"
-        onClick={() => navigate('/game')}
+        onClick={() => {
+          startRound()
+          navigate('/game')
+        }}
         disabled={!canStart}
         className="rounded-full bg-[#F6D75C] px-5 py-4 text-center text-base font-extrabold tracking-wide text-black shadow-md transition-all disabled:cursor-not-allowed disabled:opacity-40 enabled:hover:-translate-y-0.5 enabled:hover:bg-[#EFCA41] enabled:hover:shadow-lg"
       >
