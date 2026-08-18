@@ -79,8 +79,8 @@ export default function PlayerCard({
             </>
           ) : (
             <>
-              <VenetianMask size={48} strokeWidth={2} className="text-white" />
-              <span className="text-center text-2xl font-extrabold tracking-wide text-white">
+              <VenetianMask size={48} strokeWidth={2} className="text-neutral-200" />
+              <span className="text-center text-2xl font-extrabold tracking-wide text-red-500">
                 YOU ARE THE IMPOSTER
               </span>
               {variantProps.hint ? (
@@ -89,7 +89,7 @@ export default function PlayerCard({
                   <span className="text-sm text-white/90">{variantProps.hint}</span>
                 </div>
               ) : (
-                <span className="text-sm text-white/60">
+                <span className="text-center text-sm text-white/60">
                   No hint this time — good luck blending in.
                 </span>
               )}
