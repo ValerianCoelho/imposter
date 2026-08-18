@@ -1,6 +1,16 @@
+import { PlayerCard } from './frontend/components/ui/PlayerCard'
+
 function App() {
   return (
-    <div>hi</div>
+    <div className="flex min-h-screen flex-wrap items-center justify-center gap-8 bg-neutral-100 p-8">
+      <PlayerCard playerNumber={1} variant="word" word="SUNSET" />
+      <PlayerCard playerNumber={2} variant="imposter" />
+      <PlayerCard
+        playerNumber={3}
+        variant="imposter"
+        hint="It's something you'd see at the beach."
+      />
+    </div>
   )
 }
 
