@@ -4,27 +4,46 @@ import { Lightbulb, Pointer, VenetianMask } from 'lucide-react'
 type PlayerCardProps = {
   playerNumber: number
   instruction?: string
+  color?: number
 } & (
   | { variant: 'word'; word: string }
   | { variant: 'imposter'; hint?: string }
 )
 
-const RAY_LIGHT = '#F6D75C'
-const RAY_DARK = '#EBC22F'
 const RAY_SEGMENT_DEG = 15
 
-const raysBackground = `repeating-conic-gradient(from ${
-  -RAY_SEGMENT_DEG / 2
-}deg at 50% 100%, ${RAY_LIGHT} 0deg ${RAY_SEGMENT_DEG}deg, ${RAY_DARK} ${RAY_SEGMENT_DEG}deg ${
-  RAY_SEGMENT_DEG * 2
-}deg)`
+const CARD_COLORS = [
+  { light: '#F6D75C', dark: '#EFCA41' }, // yellow
+  { light: '#8FE3A1', dark: '#72D588' }, // green
+  { light: '#8FC9F6', dark: '#70B5EE' }, // blue
+  { light: '#F6A5C0', dark: '#F185AA' }, // pink
+  { light: '#C9A6F5', dark: '#B384EE' }, // purple
+  { light: '#F6A15C', dark: '#F18A41' }, // orange
+  { light: '#7FE0D6', dark: '#59D1C4' }, // teal
+  { light: '#F58C8C', dark: '#EE6E6E' }, // red
+  { light: '#B8D95C', dark: '#A6CB41' }, // lime
+  { light: '#9FA8F6', dark: '#828BF1' }, // indigo
+]
+
+function getRaysBackground(colorIndex: number) {
+  const index = ((colorIndex % CARD_COLORS.length) + CARD_COLORS.length) % CARD_COLORS.length
+  const { light, dark } = CARD_COLORS[index]
+
+  return `repeating-conic-gradient(from ${
+    -RAY_SEGMENT_DEG / 2
+  }deg at 50% 130%, ${light} 0deg ${RAY_SEGMENT_DEG}deg, ${dark} ${RAY_SEGMENT_DEG}deg ${
+    RAY_SEGMENT_DEG * 2
+  }deg)`
+}
 
 export default function PlayerCard({
   playerNumber,
   instruction = 'Do not tell the word to other players.',
+  color = 0,
   ...variantProps
 }: PlayerCardProps) {
   const [isHolding, setIsHolding] = useState(false)
+  const raysBackground = getRaysBackground(color)
 
   const startHold = () => setIsHolding(true)
   const endHold = () => setIsHolding(false)
