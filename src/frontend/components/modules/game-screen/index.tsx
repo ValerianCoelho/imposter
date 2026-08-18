@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { X } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { PlayerCard } from '../../ui/PlayerCard'
 import { useGameStore } from '../../../store/game-store'
@@ -59,9 +60,22 @@ export default function GameScreen() {
 
   return (
     <div className="mx-auto flex w-full max-w-sm flex-col items-center gap-6 px-6 py-10">
-      <p className="text-sm font-bold text-neutral-500">
-        {cardIndex + 1} / {players.length}
-      </p>
+      <div className="flex w-full items-center justify-between">
+        <button
+          type="button"
+          onClick={() => navigate('/')}
+          aria-label="Exit game"
+          className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-black shadow-sm transition-colors hover:bg-neutral-100"
+        >
+          <X size={18} strokeWidth={2.5} />
+        </button>
+
+        <p className="text-sm font-bold text-neutral-500">
+          {cardIndex + 1} / {players.length}
+        </p>
+
+        <div className="h-9 w-9" />
+      </div>
 
       {isImposter ? (
         <PlayerCard
