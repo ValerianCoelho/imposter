@@ -13,6 +13,7 @@ const MAX_WEIGHT = 3
 export interface GameRound {
   players: string[]
   imposterIndices: number[]
+  startingPlayerIndex: number
 }
 
 interface GameState {
@@ -103,9 +104,17 @@ export const useGameStore = create<GameState>()(
             : Math.min(weight * NON_IMPOSTER_WEIGHT_RECOVERY, MAX_WEIGHT),
         )
 
+        const eligibleStarters = state.hintEnabled
+          ? players.map((_, index) => index)
+          : players
+              .map((_, index) => index)
+              .filter((index) => !imposterIndices.includes(index))
+        const startingPlayerIndex =
+          eligibleStarters[Math.floor(Math.random() * eligibleStarters.length)]
+
         set({
           imposterWeights: nextWeights,
-          currentRound: { players, imposterIndices },
+          currentRound: { players, imposterIndices, startingPlayerIndex },
         })
       },
     }),
@@ -117,7 +126,6 @@ export const useGameStore = create<GameState>()(
         categoryIds: state.categoryIds,
         imposterCount: state.imposterCount,
         hintEnabled: state.hintEnabled,
-        imposterWeights: state.imposterWeights,
       }),
     },
   ),

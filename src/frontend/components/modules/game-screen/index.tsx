@@ -24,7 +24,7 @@ export default function GameScreen() {
     return null
   }
 
-  const { players, imposterIndices } = currentRound
+  const { players, imposterIndices, startingPlayerIndex } = currentRound
   const isLastCard = cardIndex === players.length - 1
   const isRoundComplete = cardIndex >= players.length
 
@@ -32,9 +32,16 @@ export default function GameScreen() {
     return (
       <div className="mx-auto flex w-full max-w-sm flex-col items-center gap-6 px-6 py-10 text-center">
         <p className="text-lg font-bold text-black">Everyone's seen their card</p>
-        <p className="text-sm text-neutral-500">
-          Start discussing and figure out who the imposter is.
-        </p>
+
+        <div className="flex flex-col items-center gap-1 rounded-3xl bg-white px-8 py-6 shadow-sm">
+          <p className="text-xs font-semibold tracking-wide text-neutral-500 uppercase">
+            Starts first
+          </p>
+          <p className="text-2xl font-extrabold text-black">
+            {players[startingPlayerIndex]}
+          </p>
+        </div>
+
         <button
           type="button"
           onClick={() => navigate('/')}
