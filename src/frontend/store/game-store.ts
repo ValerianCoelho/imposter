@@ -10,7 +10,6 @@ interface GameState {
   imposterCount: number
   hintEnabled: boolean
 
-  addPlayer: () => void
   updatePlayerName: (index: number, name: string) => void
   removePlayer: (index: number) => void
 
@@ -25,19 +24,19 @@ interface GameState {
 export const useGameStore = create<GameState>()(
   persist(
     (set) => ({
-      playerNames: ['', ''],
+      playerNames: [],
       categoryIds: [],
       imposterCount: MIN_IMPOSTER_COUNT,
       hintEnabled: false,
 
-      addPlayer: () =>
-        set((state) => ({ playerNames: [...state.playerNames, ''] })),
-
       updatePlayerName: (index, name) =>
         set((state) => ({
-          playerNames: state.playerNames.map((existing, i) =>
-            i === index ? name : existing,
-          ),
+          playerNames:
+            index >= state.playerNames.length
+              ? [...state.playerNames, name]
+              : state.playerNames.map((existing, i) =>
+                  i === index ? name : existing,
+                ),
         })),
 
       removePlayer: (index) =>

@@ -1,4 +1,4 @@
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, CircleCheck } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { CATEGORY_OPTIONS } from '../../../../constants/categories'
 import { useGameStore } from '../../../../store/game-store'
@@ -15,16 +15,19 @@ export default function CategoriesScreen() {
           type="button"
           onClick={() => navigate('/')}
           aria-label="Back"
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-neutral-100 text-black hover:bg-neutral-200"
+          className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-black shadow-sm transition-colors hover:bg-neutral-100"
         >
           <ArrowLeft size={18} strokeWidth={2.5} />
         </button>
-        <h1 className="text-2xl font-extrabold tracking-wide text-black">
-          Categories
-        </h1>
+        <div>
+          <h1 className="text-2xl font-extrabold tracking-wide text-black">
+            Categories
+          </h1>
+          <p className="text-sm text-neutral-500">Pick where the word comes from</p>
+        </div>
       </div>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="divide-y divide-neutral-100 overflow-hidden rounded-3xl bg-white shadow-sm">
         {CATEGORY_OPTIONS.map((category) => {
           const isSelected = categoryIds.includes(category.id)
 
@@ -33,13 +36,25 @@ export default function CategoriesScreen() {
               key={category.id}
               type="button"
               onClick={() => toggleCategory(category.id)}
-              className={`rounded-full border px-4 py-2 text-sm font-bold transition-colors ${
-                isSelected
-                  ? 'border-[#EFCA41] bg-[#F6D75C] text-black'
-                  : 'border-neutral-200 bg-white text-black hover:bg-neutral-50'
-              }`}
+              className="flex w-full items-center gap-4 px-4 py-3.5 text-left transition-colors hover:bg-neutral-50"
             >
-              {category.label}
+              <div
+                style={{ backgroundColor: category.tint }}
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-lg"
+              >
+                {category.emoji}
+              </div>
+
+              <span className="flex-1 text-sm font-bold text-black">
+                {category.label}
+              </span>
+
+              {isSelected && (
+                <CircleCheck
+                  size={20}
+                  className="shrink-0 fill-[#F6D75C] text-black"
+                />
+              )}
             </button>
           )
         })}

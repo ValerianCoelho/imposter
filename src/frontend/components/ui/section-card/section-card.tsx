@@ -1,33 +1,39 @@
 import { ChevronRight } from 'lucide-react'
-import type { ReactNode } from 'react'
 
 interface SectionCardProps {
   label: string
   preview: string
   onClick: () => void
-  icon?: ReactNode
+  emoji: string
+  tint: string
 }
 
 export default function SectionCard({
   label,
   preview,
   onClick,
-  icon,
+  emoji,
+  tint,
 }: SectionCardProps) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className="flex w-full items-center gap-4 rounded-2xl border border-neutral-200 bg-white px-5 py-4 text-left shadow-sm transition-colors hover:bg-neutral-50"
+      className="flex w-full items-center gap-4 rounded-3xl bg-white px-4 py-4 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
     >
-      {icon}
+      <div
+        style={{ backgroundColor: tint }}
+        className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-2xl"
+      >
+        {emoji}
+      </div>
 
       <div className="min-w-0 flex-1">
-        <p className="text-sm font-bold text-black">{label}</p>
+        <p className="text-base font-extrabold text-black">{label}</p>
         <p className="truncate text-sm text-neutral-500">{preview}</p>
       </div>
 
-      <ChevronRight size={20} className="shrink-0 text-neutral-400" />
+      <ChevronRight size={20} className="shrink-0 text-neutral-300" />
     </button>
   )
 }

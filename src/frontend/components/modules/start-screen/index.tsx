@@ -1,4 +1,3 @@
-import { Tags, Users } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { SectionCard } from '../../ui/section-card'
 import { Stepper } from '../../ui/stepper'
@@ -45,29 +44,41 @@ export default function StartScreen() {
     selectedCategoryLabels.length > 0
 
   return (
-    <div className="mx-auto flex w-full max-w-sm flex-col gap-6 px-6 py-10">
-      <h1 className="text-3xl font-extrabold tracking-wide text-black">
-        IMPOSTER
-      </h1>
+    <div className="mx-auto flex w-full max-w-sm flex-col gap-7 px-6 py-12">
+      <div>
+        <h1 className="text-4xl font-extrabold tracking-tight text-black">
+          🕵️ Imposter
+        </h1>
+        <p className="mt-1 text-sm text-neutral-500">
+          Find out who doesn't know the word.
+        </p>
+      </div>
 
       <div className="flex flex-col gap-3">
         <SectionCard
           label="Players"
           preview={playersPreview}
           onClick={() => navigate('/players')}
-          icon={<Users size={22} className="shrink-0 text-black" />}
+          emoji="👥"
+          tint="#D6E9FC"
         />
         <SectionCard
           label="Categories"
           preview={categoriesPreview}
           onClick={() => navigate('/categories')}
-          icon={<Tags size={22} className="shrink-0 text-black" />}
+          emoji="🗂️"
+          tint="#F0DEC8"
         />
       </div>
 
-      <div className="flex flex-col gap-3 rounded-2xl border border-neutral-200 bg-white px-5 py-4 shadow-sm">
-        <div className="flex items-center justify-between">
-          <p className="text-sm font-bold text-black">Imposters</p>
+      <div className="flex flex-col gap-1 rounded-3xl bg-white px-4 py-2 shadow-sm">
+        <div className="flex items-center justify-between py-3">
+          <div className="flex items-center gap-4">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#FBD8D2] text-2xl">
+              🎭
+            </div>
+            <p className="text-base font-extrabold text-black">Imposters</p>
+          </div>
           <Stepper
             value={imposterCount}
             onIncrement={incrementImposterCount}
@@ -77,8 +88,15 @@ export default function StartScreen() {
           />
         </div>
 
-        <div className="flex items-center justify-between">
-          <p className="text-sm font-bold text-black">Show hint</p>
+        <div className="h-px bg-neutral-100" />
+
+        <div className="flex items-center justify-between py-3">
+          <div className="flex items-center gap-4">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#FDF1B8] text-2xl">
+              💡
+            </div>
+            <p className="text-base font-extrabold text-black">Show hint</p>
+          </div>
           <Toggle
             checked={hintEnabled}
             onChange={setHintEnabled}
@@ -91,12 +109,12 @@ export default function StartScreen() {
         type="button"
         onClick={() => navigate('/game')}
         disabled={!canStart}
-        className="rounded-2xl bg-[#F6D75C] px-5 py-4 text-center text-base font-extrabold tracking-wide text-black shadow-sm transition-colors disabled:cursor-not-allowed disabled:opacity-40 enabled:hover:bg-[#EFCA41]"
+        className="rounded-full bg-[#F6D75C] px-5 py-4 text-center text-base font-extrabold tracking-wide text-black shadow-md transition-all disabled:cursor-not-allowed disabled:opacity-40 enabled:hover:-translate-y-0.5 enabled:hover:bg-[#EFCA41] enabled:hover:shadow-lg"
       >
         START GAME
       </button>
       {!canStart && (
-        <p className="-mt-3 text-center text-xs text-neutral-500">
+        <p className="-mt-4 text-center text-xs text-neutral-500">
           Add at least {MIN_PLAYERS_TO_START} players and select a category to
           start.
         </p>
