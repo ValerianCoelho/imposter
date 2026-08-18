@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { pickWeightedIndices } from '../lib/weighted-sample'
+import wordBank from '../../database/word-bank.json'
 
 const MIN_IMPOSTER_COUNT = 1
 const MAX_IMPOSTER_COUNT = 4
@@ -10,10 +11,16 @@ const NON_IMPOSTER_WEIGHT_RECOVERY = 1.15
 const MIN_WEIGHT = 0.15
 const MAX_WEIGHT = 3
 
+const DEFAULT_CATEGORY_IDS = ['everyday-objects', 'famous-people', 'foods-drinks']
+
+const WORD_BANK: Record<string, { word: string; hint: string }[]> = wordBank
+
 export interface GameRound {
   players: string[]
   imposterIndices: number[]
   startingPlayerIndex: number
+  word: string
+  hint: string
 }
 
 interface GameState {
@@ -22,6 +29,7 @@ interface GameState {
   imposterCount: number
   hintEnabled: boolean
   imposterWeights: number[]
+  usedWords: string[]
   currentRound: GameRound | null
 
   updatePlayerName: (index: number, name: string) => void
@@ -41,10 +49,11 @@ export const useGameStore = create<GameState>()(
   persist(
     (set, get) => ({
       playerNames: [],
-      categoryIds: [],
+      categoryIds: DEFAULT_CATEGORY_IDS,
       imposterCount: MIN_IMPOSTER_COUNT,
       hintEnabled: false,
       imposterWeights: [],
+      usedWords: [],
       currentRound: null,
 
       updatePlayerName: (index, name) =>
@@ -112,9 +121,31 @@ export const useGameStore = create<GameState>()(
         const startingPlayerIndex =
           eligibleStarters[Math.floor(Math.random() * eligibleStarters.length)]
 
+        const wordPool = state.categoryIds.flatMap(
+          (categoryId) => WORD_BANK[categoryId] ?? [],
+        )
+        const unusedEntries = wordPool.filter(
+          (entry) => !state.usedWords.includes(entry.word),
+        )
+        const wordCandidates = unusedEntries.length > 0 ? unusedEntries : wordPool
+        const chosenEntry =
+          wordCandidates[Math.floor(Math.random() * wordCandidates.length)]
+
         set({
           imposterWeights: nextWeights,
-          currentRound: { players, imposterIndices, startingPlayerIndex },
+          usedWords:
+            chosenEntry && unusedEntries.length > 0
+              ? [...state.usedWords, chosenEntry.word]
+              : chosenEntry
+                ? [chosenEntry.word]
+                : state.usedWords,
+          currentRound: {
+            players,
+            imposterIndices,
+            startingPlayerIndex,
+            word: chosenEntry?.word ?? '',
+            hint: chosenEntry?.hint ?? '',
+          },
         })
       },
     }),

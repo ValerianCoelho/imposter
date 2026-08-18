@@ -3,9 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { PlayerCard } from '../../ui/PlayerCard'
 import { useGameStore } from '../../../store/game-store'
 
-const HARDCODED_WORD = 'SUNSET'
-const HARDCODED_HINT = "It's something you'd see at the beach."
-
 export default function GameScreen() {
   const navigate = useNavigate()
   const currentRound = useGameStore((state) => state.currentRound)
@@ -24,7 +21,7 @@ export default function GameScreen() {
     return null
   }
 
-  const { players, imposterIndices, startingPlayerIndex } = currentRound
+  const { players, imposterIndices, startingPlayerIndex, word, hint } = currentRound
   const isLastCard = cardIndex === players.length - 1
   const isRoundComplete = cardIndex >= players.length
 
@@ -73,7 +70,7 @@ export default function GameScreen() {
           playerName={players[cardIndex]}
           color={cardIndex}
           variant="imposter"
-          hint={hintEnabled ? HARDCODED_HINT : undefined}
+          hint={hintEnabled ? hint : undefined}
           onReveal={() => setHasRevealed(true)}
         />
       ) : (
@@ -83,7 +80,7 @@ export default function GameScreen() {
           playerName={players[cardIndex]}
           color={cardIndex}
           variant="word"
-          word={HARDCODED_WORD}
+          word={word}
           onReveal={() => setHasRevealed(true)}
         />
       )}
