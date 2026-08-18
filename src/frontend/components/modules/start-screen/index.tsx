@@ -46,13 +46,15 @@ export default function StartScreen() {
 
   return (
     <div className="mx-auto flex w-full max-w-sm flex-col gap-7 px-6 py-12">
-      <div>
-        <h1 className="text-4xl font-extrabold tracking-tight text-black">
-          🕵️ Imposter
+      <div className="flex items-center gap-4">
+        <span className="text-6xl">🕵️</span>
+        <h1
+          style={{ fontFamily: "'Anton', sans-serif" }}
+          className="flex flex-col leading-none text-neutral-700 uppercase"
+        >
+          <span className="text-2xl tracking-wide">Imposter</span>
+          <span className="text-6xl">Who?</span>
         </h1>
-        <p className="mt-1 text-sm text-neutral-500">
-          Find out who doesn't know the word.
-        </p>
       </div>
 
       <div className="flex flex-col gap-3">
